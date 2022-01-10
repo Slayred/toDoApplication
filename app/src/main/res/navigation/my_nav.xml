@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.chibisov.todoapplication.fragments.list.ListFragment"
-        android:label="fragment_list"
+        android:label="List of TODO"
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_addFragment"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/addFragment"
         android:name="com.chibisov.todoapplication.fragments.add.addFragment"
-        android:label="fragment_add"
+        android:label="ADD Note"
         tools:layout="@layout/fragment_add" >
         <action
             android:id="@+id/action_addFragment_to_listFragment"
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/updateFragment"
         android:name="com.chibisov.todoapplication.fragments.update.updateFragment"
-        android:label="fragment_update"
+        android:label="UPDATE NOTE"
         tools:layout="@layout/fragment_update" >
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
