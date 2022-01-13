@@ -22,4 +22,10 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
             toDoRepository.insertData(toDoData)
         }
     }
+
+    fun updateData(toDoData: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.updateData(toDoData)
+        }
+    }
 }
