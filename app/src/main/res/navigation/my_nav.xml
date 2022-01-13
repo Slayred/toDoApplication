@@ -38,12 +38,14 @@
     </fragment>
     <fragment
         android:id="@+id/updateFragment"
-        android:name="com.chibisov.todoapplication.fragments.update.updateFragment"
+        android:name="com.chibisov.todoapplication.fragments.update.UpdateFragment"
         android:label="UPDATE NOTE"
         tools:layout="@layout/fragment_update" >
         <action
             android:id="@+id/action_updateFragment_to_listFragment"
-            app:destination="@id/listFragment"
-/>
+            app:destination="@id/listFragment" />
+        <argument
+            android:name="currentItem"
+            app:argType="com.chibisov.todoapplication.data.model.ToDoData" />
     </fragment>
 </navigation>

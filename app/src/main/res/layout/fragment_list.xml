@@ -9,8 +9,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewList"
-        android:layout_width="225dp"
-        android:layout_height="283dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,14 +43,15 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.198" />
+        app:layout_constraintVertical_bias="0.198"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/noDataTView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="88dp"
-        android:text="TextView"
+        tools:Text = "Custom Text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
