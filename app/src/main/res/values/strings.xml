@@ -12,6 +12,7 @@
     <string name="add">ADD</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="nothing_to_show">NOTHING TO SHOW</string>
 
     <string-array name="priorities">
         <item>High Priority</item>

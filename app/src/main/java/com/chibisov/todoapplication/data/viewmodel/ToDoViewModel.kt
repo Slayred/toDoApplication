@@ -28,4 +28,24 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
             toDoRepository.updateData(toDoData)
         }
     }
+
+    fun delete(data: ToDoData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.delete(data)
+        }
+    }
+
+    fun deleteAll(){
+        viewModelScope.launch(Dispatchers.IO) {
+            toDoRepository.deleteAll()
+        }
+    }
+
+    fun searchItem(query: String): LiveData<List<ToDoData>> {
+         return toDoRepository.searchItem(query)
+    }
+
+    fun sortItems(order: String): LiveData<List<ToDoData>> {
+        return toDoRepository.orderItems(order)
+    }
 }

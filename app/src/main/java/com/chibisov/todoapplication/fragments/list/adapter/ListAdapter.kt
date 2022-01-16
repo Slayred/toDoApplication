@@ -1,20 +1,19 @@
-package com.chibisov.todoapplication.fragments.list
+package com.chibisov.todoapplication.fragments.list.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chibisov.todoapplication.R
 import com.chibisov.todoapplication.data.model.Priority
 import com.chibisov.todoapplication.data.model.ToDoData
-import kotlinx.android.synthetic.main.row_layout.view.*
-import org.w3c.dom.Text
+import com.chibisov.todoapplication.fragments.list.ListFragmentDirections
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
@@ -57,8 +56,11 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     }
 
     fun setData(toDoData: List<ToDoData>){
+        val toDoDiffUtil = ToDoDiffUtil(dataList, toDoData)
+        val toDoDiffUtilResult = DiffUtil.calculateDiff(toDoDiffUtil)
         this.dataList = toDoData
-        notifyDataSetChanged()
+        toDoDiffUtilResult.dispatchUpdatesTo(this)
+        //notifyDataSetChanged()
     }
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

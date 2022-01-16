@@ -1,5 +1,6 @@
 package com.chibisov.todoapplication.fragments.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -8,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.chibisov.todoapplication.R
-import com.chibisov.todoapplication.data.model.Priority
 import com.chibisov.todoapplication.data.model.ToDoData
 import com.chibisov.todoapplication.data.viewmodel.ToDoViewModel
 import com.chibisov.todoapplication.fragments.SharedViewModel
@@ -48,13 +48,14 @@ class UpdateFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_save){
-            updateTiem()
+        when (item.itemId){
+            R.id.menu_save -> updateItem()
+            R.id.menu_delete -> deleteItem()
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateTiem() {
+    private fun updateItem() {
         val title = currentTitleET.text.toString()
         val description = currentDescriptionET.text.toString()
         val priority = currentprioritySP.selectedItem.toString()
@@ -72,6 +73,22 @@ class UpdateFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun deleteItem(){
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Delete ${args.currentItem.title}")
+        alertDialog.setMessage("Are u sure to delete '${args.currentItem.title}'?")
+        alertDialog.setPositiveButton("Yes"){
+            _, _ ->
+            mToDoViewModel.delete(args.currentItem)
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+            Toast.makeText(requireContext(),"Successfully deleted ${args.currentItem.title}", Toast.LENGTH_SHORT).show()
+        }
+        alertDialog.setNegativeButton("NO"){_, _ -> }
+        alertDialog.show()
+
+
     }
 
     //Move To SharedModel
