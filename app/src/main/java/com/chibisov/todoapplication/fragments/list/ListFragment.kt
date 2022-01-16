@@ -8,15 +8,14 @@ import android.widget.ImageView
 import android.widget.SearchView
 //Implement another one SearchView
 //import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.chibisov.todoapplication.R
 import com.chibisov.todoapplication.data.model.ToDoData
 import com.chibisov.todoapplication.data.viewmodel.ToDoViewModel
@@ -76,7 +75,12 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setupRecycleView(recyclerView: RecyclerView?) {
         //adapter RecycleView
         recyclerView?.adapter = adapter
-        recyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        //linear layoutManager
+        //recyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        //Grid layOutManager
+        //recyclerView?.layoutManager = GridLayoutManager(requireActivity(), 2)
+        //StagedGrid
+        recyclerView?.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         //Animation in RecycleView
         recyclerView?.itemAnimator = SlideInUpAnimator().apply {
             addDuration = 300
