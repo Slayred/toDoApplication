@@ -44,4 +44,8 @@ class ToDoViewModel(application: Application): AndroidViewModel(application) {
     fun searchItem(query: String): LiveData<List<ToDoData>> {
          return toDoRepository.searchItem(query)
     }
+
+    fun sortItems(order: String): LiveData<List<ToDoData>> {
+        return toDoRepository.orderItems(order)
+    }
 }

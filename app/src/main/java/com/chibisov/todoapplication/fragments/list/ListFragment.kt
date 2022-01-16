@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
-//import android.widget.SearchView
+import android.widget.SearchView
 //Implement another one SearchView
-import androidx.appcompat.widget.SearchView
+//import androidx.appcompat.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
@@ -44,15 +44,6 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         val view =  inflater.inflate(R.layout.fragment_list, container, false)
         // Set adapter and manager for RV
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recycleViewList)
-//        recyclerView?.adapter = adapter
-//        recyclerView?.layoutManager = LinearLayoutManager(requireActivity())
-//        //Animation in RecycleView
-//        recyclerView?.itemAnimator = LandingAnimator().apply {
-//            addDuration = 300
-//        }
-//        recyclerView?.let {
-//            swipeToDelete(it)
-//        }
         setupRecycleView(recyclerView)
 
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer {
@@ -148,6 +139,12 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_delete_all -> confirmRemoveAll()
+            R.id.menu_priority_high -> mToDoViewModel.sortItems("HIGH").observe(this, Observer {
+                data -> adapter.setData(data)
+            })
+            R.id.menu_priority_low -> mToDoViewModel.sortItems("LOW").observe(this, Observer {
+                data -> adapter.setData(data)
+            })
         }
         return super.onOptionsItemSelected(item)
     }
