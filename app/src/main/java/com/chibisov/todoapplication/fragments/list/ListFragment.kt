@@ -4,9 +4,13 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
+//import android.widget.SearchView
+//Implement another one SearchView
+import androidx.appcompat.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -21,11 +25,10 @@ import com.chibisov.todoapplication.fragments.list.adapter.ListAdapter
 import com.chibisov.todoapplication.fragments.list.adapter.SwipeToDelete
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_list.view.*
-import java.text.FieldPosition
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val adapter: ListAdapter by lazy { ListAdapter() }
     private val mToDoViewModel: ToDoViewModel by viewModels()
@@ -40,10 +43,17 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_list, container, false)
         // Set adapter and manager for RV
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycleViewList)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        swipeToDelete(recyclerView)
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.recycleViewList)
+//        recyclerView?.adapter = adapter
+//        recyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+//        //Animation in RecycleView
+//        recyclerView?.itemAnimator = LandingAnimator().apply {
+//            addDuration = 300
+//        }
+//        recyclerView?.let {
+//            swipeToDelete(it)
+//        }
+        setupRecycleView(recyclerView)
 
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer {
             data ->
@@ -72,14 +82,27 @@ class ListFragment : Fragment() {
         return view
     }
 
+    private fun setupRecycleView(recyclerView: RecyclerView?) {
+        //adapter RecycleView
+        recyclerView?.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(requireActivity())
+        //Animation in RecycleView
+        recyclerView?.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
+        recyclerView?.let {
+            swipeToDelete(it)
+        }
+    }
+
     private fun showEmptyDatabaseViews(emptyDatabase: Boolean) {
         if(emptyDatabase) {
-            view?.noDataIView?.visibility = View.VISIBLE
-            view?.noDataTView?.visibility = View.VISIBLE
+            view?.findViewById<ImageView>(R.id.noDataIView)?.visibility = View.VISIBLE
+            view?.findViewById<TextView>(R.id.noDataTView)?.visibility = View.VISIBLE
 
         }   else   {
-                view?.noDataIView?.visibility = View.INVISIBLE
-                view?.noDataTView?.visibility = View.INVISIBLE
+            view?.findViewById<ImageView>(R.id.noDataIView)?.visibility = View.INVISIBLE
+            view?.findViewById<TextView>(R.id.noDataTView)?.visibility = View.INVISIBLE
             }
         }
 
@@ -114,6 +137,12 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_fragment_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -136,6 +165,34 @@ class ListFragment : Fragment() {
         alertDialog.setNegativeButton("NO"){_, _ -> }
         alertDialog.show()
 
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if(query != null){
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+
+
+    override fun onQueryTextChange(query: String?): Boolean {
+        if(query != null){
+            searchThroughDatabase(query)
+        }
+        return true
+    }
+
+    private fun searchThroughDatabase(query: String) {
+        var searchQuery: String = query
+        searchQuery = "%$searchQuery%"
+
+        mToDoViewModel.searchItem(searchQuery).observe(this, Observer {
+            data ->
+            data?.let {
+                adapter.setData(it)
+            }
+        })
     }
 
 }

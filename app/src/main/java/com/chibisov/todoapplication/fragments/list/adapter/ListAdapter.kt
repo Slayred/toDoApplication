@@ -14,7 +14,6 @@ import com.chibisov.todoapplication.R
 import com.chibisov.todoapplication.data.model.Priority
 import com.chibisov.todoapplication.data.model.ToDoData
 import com.chibisov.todoapplication.fragments.list.ListFragmentDirections
-import kotlinx.android.synthetic.main.row_layout.view.*
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 

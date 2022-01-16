@@ -25,4 +25,8 @@ class ToDoRepository(private val toDoDao: ToDoDao) {
         toDoDao.deleteAll()
     }
 
+    fun searchItem(searchTitle: String): LiveData<List<ToDoData>>{
+        return toDoDao.searchDatabase(searchTitle)
+    }
+
 }
