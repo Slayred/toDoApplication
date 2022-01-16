@@ -22,6 +22,7 @@ import com.chibisov.todoapplication.data.viewmodel.ToDoViewModel
 import com.chibisov.todoapplication.fragments.SharedViewModel
 import com.chibisov.todoapplication.fragments.list.adapter.ListAdapter
 import com.chibisov.todoapplication.fragments.list.adapter.SwipeToDelete
+import com.chibisov.todoapplication.fragments.utils.hideKeyboard
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
@@ -69,6 +70,10 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         //Set menu
         setHasOptionsMenu(true)
+
+        //Hide soft keyboard
+        hideKeyboard(requireActivity())
+
         return view
     }
 
@@ -125,7 +130,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
         )
         snackBar.setAction("Undo"){
             mToDoViewModel.insertData(deletedItem)
-            adapter.notifyItemChanged(position)
+            //FIX crash with undo in stuggerlayout
+            //adapter.notifyItemChanged(position)
         }
         snackBar.show()
     }
